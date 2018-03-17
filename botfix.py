@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import random
 import sqlite3
+import html
 
 description = '''A bot to update the banlog site.'''
 bot = commands.Bot(command_prefix='!', description=description)
@@ -29,7 +30,7 @@ async def on_message(message):
             string = crop.split(' ', 1)
             username = string[0]
             lowername = username.lower()
-            reason = string[1]
+            reason = html.escape(string[1])
             melding = 'Updating ban for `{}` with reason `{}`'.format(lowername,reason)
             await bot.send_message(message.channel, melding)
 
@@ -48,7 +49,7 @@ async def on_message(message):
             string = crop.split(' ', 1)
             username = string[0]
             lowername = username.lower()
-            reason = string[1]
+            reason = html.escape(string[1])
             melding = 'Updating unban for `{}` with reason `{}`'.format(lowername,reason)
             await bot.send_message(message.channel, melding)
 
