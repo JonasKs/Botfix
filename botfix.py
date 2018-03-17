@@ -30,7 +30,7 @@ async def on_message(message):
             string = crop.split(' ', 1)
             username = string[0]
             lowername = username.lower()
-            reason = html.escape(string[1])
+            reason = string[1]
             melding = 'Updating ban for `{}` with reason `{}`'.format(lowername,reason)
             await bot.send_message(message.channel, melding)
 
@@ -38,7 +38,7 @@ async def on_message(message):
             sqlite_file = '/home/ubuntu/twitch-bans/db.sql'
             conn = sqlite3.connect(sqlite_file)
             c = conn.cursor()
-            c.execute("UPDATE bans SET reason=? WHERE username=? AND type='ban'", (reason, lowername))
+            c.execute("UPDATE bans SET reason=? WHERE username=? AND type='ban'", (html.escape(reason), lowername))
             conn.commit()
             conn.close()
 
@@ -49,7 +49,7 @@ async def on_message(message):
             string = crop.split(' ', 1)
             username = string[0]
             lowername = username.lower()
-            reason = html.escape(string[1])
+            reason = string[1]
             melding = 'Updating unban for `{}` with reason `{}`'.format(lowername,reason)
             await bot.send_message(message.channel, melding)
 
@@ -57,7 +57,7 @@ async def on_message(message):
             sqlite_file = '/home/ubuntu/twitch-bans/db.sql'
             conn = sqlite3.connect(sqlite_file)
             c = conn.cursor()
-            c.execute("UPDATE bans SET reason=? WHERE username=? AND type='unban'", (reason, lowername))
+            c.execute("UPDATE bans SET reason=? WHERE username=? AND type='unban'", (html.escape(reason), lowername))
             conn.commit()
             conn.close()
 bot.run('DiscordBotToken')
